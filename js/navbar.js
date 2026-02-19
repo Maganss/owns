@@ -20,50 +20,60 @@ export function renderNavbar() {
     const currentPath = getCurrentRoute();
 
     nav.innerHTML = `
-        <div class="container navbar__container">
-            <a href="#/" class="navbar__logo">
-                <img src="assets/logo.png" alt="OWNS Logo" class="navbar__logo-img" style="height: 48px; width: auto; border-radius: 8px;">
+        <div class="navbar-inner">
+            <a href="#/" class="navbar-logo">
+                <img src="assets/logo.png" alt="OWNS Logo" class="navbar-logo-img">
                 <span>OWNS</span>
             </a>
-            <ul class="navbar__links" id="navLinks">
-                ${links.map(link => `
-                    <li>
-                        <a href="#${link.path}" 
-                           class="navbar__link ${currentPath === link.path ? 'active' : ''} ${link.path === '/contact' ? 'btn btn--primary btn--sm navbar__cta' : ''}">
-                            ${link.label}
-                        </a>
-                    </li>
-                `).join('')}
-            </ul>
-            <button class="navbar__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+            <div class="navbar-right">
+                <ul class="navbar-menu" id="navbarMenu">
+                    ${links.map(link => `
+                        <li>
+                            <a href="#${link.path}" 
+                               class="navbar-link ${currentPath === link.path ? 'active' : ''} ${link.path === '/contact' ? 'btn btn--primary btn--sm' : ''}">
+                                ${link.label}
+                            </a>
+                        </li>
+                    `).join('')}
+                </ul>
+                <button class="navbar-hamburger" id="navbarHamburger" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
         </div>
-        <div class="mobile-menu-overlay" id="mobileOverlay"></div>
     `;
 
-    // Add toggle function globally
-    window.toggleMobileMenu = function() {
-        const navLinks = document.getElementById('navLinks');
-        const toggle = document.getElementById('navToggle');
-        if (navLinks && toggle) {
-            navLinks.classList.toggle('open');
-            const isOpen = navLinks.classList.contains('open');
-            toggle.setAttribute('aria-expanded', isOpen);
-        }
-    };
+    // Simple mobile menu toggle
+    requestAnimationFrame(() => {
+        const hamburger = nav.querySelector('#navbarHamburger');
+        const menu = nav.querySelector('#navbarMenu');
+        
+        if (hamburger && menu) {
+            hamburger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                menu.classList.toggle('active');
+                hamburger.classList.toggle('active');
+            });
 
-    // Attach event listener after DOM is ready
-    setTimeout(() => {
-        const toggle = document.getElementById('navToggle');
-        if (toggle) {
-            toggle.onclick = window.toggleMobileMenu;
-        }
-    }, 0);
+            // Close when clicking a link
+            menu.querySelectorAll('.navbar-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.remove('active');
+                    hamburger.classList.remove('active');
+                });
+            });
 
-    // Setup scroll behavior
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!menu.contains(e.target) && !hamburger.contains(e.target)) {
+                    menu.classList.remove('active');
+                    hamburger.classList.remove('active');
+                }
+            });
+        }
+    });
 
     // Setup scroll behavior
     let ticking = false;
@@ -81,46 +91,15 @@ export function renderNavbar() {
         }
     };
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll(); // Check initial state
-
-    // Mobile menu toggle
-    setTimeout(() => {
-        const toggle = document.getElementById('navToggle');
-        const navLinks = document.getElementById('navLinks');
-        const overlay = document.getElementById('mobileOverlay');
-
-        if (toggle && navLinks) {
-            toggle.addEventListener('click', () => {
-                navLinks.classList.toggle('open');
-                if (overlay) overlay.classList.toggle('active');
-                toggle.setAttribute('aria-expanded', navLinks.classList.contains('open'));
-            });
-
-            if (overlay) {
-                overlay.addEventListener('click', () => {
-                    navLinks.classList.remove('open');
-                    overlay.classList.remove('active');
-                    toggle.setAttribute('aria-expanded', 'false');
-                });
-            }
-
-            navLinks.querySelectorAll('.navbar__link').forEach(link => {
-                link.addEventListener('click', () => {
-                    navLinks.classList.remove('open');
-                    if (overlay) overlay.classList.remove('active');
-                    toggle.setAttribute('aria-expanded', 'false');
-                });
-            });
-        }
-    }, 100);
+    onScroll();
 
     // Update active link on route change
     window.addEventListener('hashchange', () => {
         const current = getCurrentRoute();
-        nav.querySelectorAll('.navbar__link').forEach(link => {
+        nav.querySelectorAll('.navbar-link').forEach(link => {
             const href = link.getAttribute('href');
             if (href) {
-                const linkPath = href.slice(1); // Remove #
+                const linkPath = href.slice(1);
                 link.classList.toggle('active', linkPath === current);
             }
         });
