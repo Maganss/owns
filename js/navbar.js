@@ -43,7 +43,6 @@ export function renderNavbar() {
                 </button>
             </div>
         </div>
-        <div class="mobile-overlay" id="mobileOverlay"></div>
     `;
 
     // Setup scroll behavior
@@ -67,30 +66,18 @@ export function renderNavbar() {
     // Mobile menu toggle - attach immediately
     const toggle = document.getElementById('navToggle');
     const navLinks = document.getElementById('navLinks');
-    const overlay = document.getElementById('mobileOverlay');
 
     if (toggle && navLinks) {
         toggle.addEventListener('click', (e) => {
             e.preventDefault();
-            e.stopPropagation();
             navLinks.classList.toggle('open');
-            if (overlay) overlay.classList.toggle('active');
             toggle.setAttribute('aria-expanded', navLinks.classList.contains('open'));
         });
-
-        if (overlay) {
-            overlay.addEventListener('click', () => {
-                navLinks.classList.remove('open');
-                overlay.classList.remove('active');
-                toggle.setAttribute('aria-expanded', 'false');
-            });
-        }
 
         // Close menu on link click
         navLinks.querySelectorAll('.navbar__link').forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('open');
-                if (overlay) overlay.classList.remove('active');
                 toggle.setAttribute('aria-expanded', 'false');
             });
         });
