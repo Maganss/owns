@@ -13,6 +13,7 @@
     z-index: 1000;
     padding: var(--space-4) 0;
     overflow: visible;
+    background: transparent;
     transition: background var(--transition-base), box-shadow var(--transition-base), padding var(--transition-base);
 }
 
@@ -36,6 +37,7 @@
 @media (max-width: 768px) {
     .navbar__container {
         position: relative;
+        overflow: visible;
     }
     
     .navbar__toggle {
@@ -51,22 +53,23 @@
     .navbar__links {
         position: fixed;
         top: 0;
-        right: -100%;
-        width: 80%;
-        max-width: 300px;
+        right: 0;
+        width: 75%;
+        max-width: 280px;
         height: 100vh;
         background: var(--color-navy);
         flex-direction: column;
-        padding: var(--space-16) var(--space-8);
+        padding: var(--space-16) var(--space-6);
         gap: var(--space-6);
-        transition: right var(--transition-slow);
+        transform: translateX(100%);
+        transition: transform var(--transition-slow);
         box-shadow: var(--shadow-xl);
         z-index: 1003;
         overflow-y: auto;
     }
 
     .navbar__links.open {
-        right: 0;
+        transform: translateX(0);
     }
 
     .navbar__links .navbar__link {
