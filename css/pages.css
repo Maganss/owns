@@ -38,16 +38,18 @@
     .navbar__container {
         position: relative;
         overflow: visible;
+        padding-right: 50px !important;
     }
     
     .navbar__toggle {
         display: flex;
         position: absolute;
-        right: 0;
+        right: 10px;
         top: 50%;
         transform: translateY(-50%);
         z-index: 1005;
         cursor: pointer;
+        padding: 10px;
     }
 
     .navbar__links {
