@@ -35,7 +35,7 @@ export function renderNavbar() {
                     </li>
                 `).join('')}
             </ul>
-            <button class="navbar__toggle" id="navToggle" onclick="document.getElementById('navLinks').classList.toggle('open'); this.setAttribute('aria-expanded', document.getElementById('navLinks').classList.contains('open'));" aria-label="Toggle menu" aria-expanded="false">
+            <button class="navbar__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -43,6 +43,25 @@ export function renderNavbar() {
         </div>
         <div class="mobile-menu-overlay" id="mobileOverlay"></div>
     `;
+
+    // Add toggle function globally
+    window.toggleMobileMenu = function() {
+        const navLinks = document.getElementById('navLinks');
+        const toggle = document.getElementById('navToggle');
+        if (navLinks && toggle) {
+            navLinks.classList.toggle('open');
+            const isOpen = navLinks.classList.contains('open');
+            toggle.setAttribute('aria-expanded', isOpen);
+        }
+    };
+
+    // Attach event listener after DOM is ready
+    setTimeout(() => {
+        const toggle = document.getElementById('navToggle');
+        if (toggle) {
+            toggle.onclick = window.toggleMobileMenu;
+        }
+    }, 0);
 
     // Setup scroll behavior
 
