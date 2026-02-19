@@ -20,28 +20,26 @@ export function renderNavbar() {
     const currentPath = getCurrentRoute();
 
     nav.innerHTML = `
-        <div class="container">
-            <div class="navbar__inner">
-                <a href="#/" class="navbar__logo">
-                    <img src="assets/logo.png" alt="OWNS Logo" class="navbar__logo-img" style="height: 48px; width: auto; border-radius: 8px;">
-                    <span>OWNS</span>
-                </a>
-                <ul class="navbar__links" id="navLinks">
-                    ${links.map(link => `
-                        <li>
-                            <a href="#${link.path}" 
-                               class="navbar__link ${currentPath === link.path ? 'active' : ''} ${link.path === '/contact' ? 'btn btn--primary btn--sm navbar__cta' : ''}">
-                                ${link.label}
-                            </a>
-                        </li>
-                    `).join('')}
-                </ul>
-                <button class="navbar__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </div>
+        <div class="container navbar__container">
+            <a href="#/" class="navbar__logo">
+                <img src="assets/logo.png" alt="OWNS Logo" class="navbar__logo-img" style="height: 48px; width: auto; border-radius: 8px;">
+                <span>OWNS</span>
+            </a>
+            <ul class="navbar__links" id="navLinks">
+                ${links.map(link => `
+                    <li>
+                        <a href="#${link.path}" 
+                           class="navbar__link ${currentPath === link.path ? 'active' : ''} ${link.path === '/contact' ? 'btn btn--primary btn--sm navbar__cta' : ''}">
+                            ${link.label}
+                        </a>
+                    </li>
+                `).join('')}
+            </ul>
+            <button class="navbar__toggle" id="navToggle" onclick="document.getElementById('navLinks').classList.toggle('open'); this.setAttribute('aria-expanded', document.getElementById('navLinks').classList.contains('open'));" aria-label="Toggle menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
         <div class="mobile-menu-overlay" id="mobileOverlay"></div>
     `;
