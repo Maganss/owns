@@ -63,25 +63,25 @@ export function renderNavbar() {
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll(); // Check initial state
 
-    // Mobile menu toggle - attach immediately
-    const toggle = document.getElementById('navToggle');
-    const navLinks = document.getElementById('navLinks');
+    // Mobile menu toggle
+    requestAnimationFrame(() => {
+        const toggle = nav.querySelector('#navToggle');
+        const navLinks = nav.querySelector('#navLinks');
 
-    if (toggle && navLinks) {
-        toggle.addEventListener('click', (e) => {
-            e.preventDefault();
-            navLinks.classList.toggle('open');
-            toggle.setAttribute('aria-expanded', navLinks.classList.contains('open'));
-        });
-
-        // Close menu on link click
-        navLinks.querySelectorAll('.navbar__link').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('open');
-                toggle.setAttribute('aria-expanded', 'false');
+        if (toggle && navLinks) {
+            toggle.addEventListener('click', () => {
+                navLinks.classList.toggle('open');
+                toggle.setAttribute('aria-expanded', navLinks.classList.contains('open'));
             });
-        });
-    }
+
+            navLinks.querySelectorAll('.navbar__link').forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                });
+            });
+        }
+    });
 
     // Update active link on route change
     window.addEventListener('hashchange', () => {
