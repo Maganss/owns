@@ -12,6 +12,7 @@
     right: 0;
     z-index: 1000;
     padding: var(--space-4) 0;
+    overflow: visible;
     transition: background var(--transition-base), box-shadow var(--transition-base), padding var(--transition-base);
 }
 
@@ -131,6 +132,11 @@
 @media (max-width: 768px) {
     .navbar__toggle {
         display: flex;
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1004;
     }
 
     .navbar__links {
@@ -145,7 +151,7 @@
         gap: var(--space-6);
         transition: right var(--transition-slow);
         box-shadow: var(--shadow-xl);
-        z-index: 1002;
+        z-index: 1003;
     }
 
     .navbar__links.open {
