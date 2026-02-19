@@ -43,7 +43,10 @@ export function renderNavbar() {
                 </button>
             </div>
         </div>
+        <div class="mobile-menu-overlay" id="mobileOverlay"></div>
     `;
+
+    // Setup scroll behavior
 
     // Setup scroll behavior
     let ticking = false;
@@ -64,24 +67,35 @@ export function renderNavbar() {
     onScroll(); // Check initial state
 
     // Mobile menu toggle
-    requestAnimationFrame(() => {
-        const toggle = nav.querySelector('#navToggle');
-        const navLinks = nav.querySelector('#navLinks');
+    setTimeout(() => {
+        const toggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        const overlay = document.getElementById('mobileOverlay');
 
         if (toggle && navLinks) {
             toggle.addEventListener('click', () => {
                 navLinks.classList.toggle('open');
+                if (overlay) overlay.classList.toggle('active');
                 toggle.setAttribute('aria-expanded', navLinks.classList.contains('open'));
             });
+
+            if (overlay) {
+                overlay.addEventListener('click', () => {
+                    navLinks.classList.remove('open');
+                    overlay.classList.remove('active');
+                    toggle.setAttribute('aria-expanded', 'false');
+                });
+            }
 
             navLinks.querySelectorAll('.navbar__link').forEach(link => {
                 link.addEventListener('click', () => {
                     navLinks.classList.remove('open');
+                    if (overlay) overlay.classList.remove('active');
                     toggle.setAttribute('aria-expanded', 'false');
                 });
             });
         }
-    });
+    }, 100);
 
     // Update active link on route change
     window.addEventListener('hashchange', () => {
