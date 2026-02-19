@@ -30,8 +30,7 @@ export function renderNavbar() {
                     ${links.map(link => `
                         <li>
                             <a href="#${link.path}" 
-                               class="navbar__link ${currentPath === link.path ? 'active' : ''}"
-                               ${link.path === '/contact' ? 'class="navbar__link btn btn--primary btn--sm navbar__cta"' : ''}>
+                               class="navbar__link ${currentPath === link.path ? 'active' : ''} ${link.path === '/contact' ? 'btn btn--primary btn--sm navbar__cta' : ''}">
                                 ${link.label}
                             </a>
                         </li>

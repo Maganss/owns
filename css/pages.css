@@ -112,6 +112,8 @@
     border: none;
     cursor: pointer;
     padding: var(--space-2);
+    z-index: 1001;
+    position: relative;
 }
 
 .navbar__toggle span {
@@ -143,6 +145,7 @@
         gap: var(--space-6);
         transition: right var(--transition-slow);
         box-shadow: var(--shadow-xl);
+        z-index: 1002;
     }
 
     .navbar__links.open {
